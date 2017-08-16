@@ -86,7 +86,6 @@ def editUser(publicID):
 
         return jsonify({ 'status': 200, 'status_message': 'Successfully updated user', 'data': res_data })
     except Exception as error:
-        print(error)
         return jsonify({ 'status': 400, 'status_message': 'Invalid user request' })
 
 
@@ -98,4 +97,4 @@ def deleteUser(publicID):
         db.session.commit()
         return jsonify({ 'status': 200, 'status_message': 'Successfully removed user' })
     except Exception:
-        return jsonify({ 'status': 400, 'status_message': 'Invalid user request' })
+        return jsonify({ 'status': 404, 'status_message': 'User not found' })
