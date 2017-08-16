@@ -41,7 +41,7 @@ def getSingleUser(publicID):
 
         return jsonify({ 'status': 200, 'status_message': 'User request success', 'data': user_data })
     except Exception:
-        return jsonify({ 'status': 400, 'status_message': 'Invalid user request' })
+        return jsonify({ 'status': 404, 'status_message': 'User not found' })
 
 
 @component.route('/users/', methods=["POST"])
@@ -86,7 +86,7 @@ def editUser(publicID):
 
         return jsonify({ 'status': 200, 'status_message': 'Successfully updated user', 'data': res_data })
     except Exception as error:
-        return jsonify({ 'status': 400, 'status_message': 'Invalid user request' })
+        return jsonify({ 'status': 404, 'status_message': 'User not found' })
 
 
 @component.route('/users/<string:publicID>', methods=["DELETE"])
