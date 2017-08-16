@@ -39,7 +39,7 @@ def getSingleUser(publicID):
             'date_created': user.date_created
         }
 
-        return jsonify({ 'status': 200, 'status_message': 'Single user request success', 'data': user_data })
+        return jsonify({ 'status': 200, 'status_message': 'User request success', 'data': user_data })
     except Exception:
         return jsonify({ 'status': 400, 'status_message': 'Invalid user request' })
 
