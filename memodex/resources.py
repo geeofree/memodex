@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 
 from uuid import uuid4
 import datetime
+import bcrypt
 
 from memodex.model import db
 from memodex.model import User
@@ -53,16 +54,17 @@ def registerUser():
         return jsonify({ 'status': 400, 'status_message': 'Invalid or incomplete request data' })
 
     try:
+        encrypted_password = bcrypt.hashpw(bytes(password, 'utf-8'), bcrypt.gensalt())
         newUser = User(
             public_id=str(uuid4()),
             username=username,
-            password=password,
+            password=encrypted_password,
             date_created=datetime.datetime.now()
         )
         db.session.add(newUser)
         db.session.commit()
         return jsonify({ 'status': 200, 'status_message': 'New user successfuly created' })
-    except Exception:
+    except Exception as error:
         return jsonify({ 'status': 400, 'status_message': 'Duplicate Entry' })
 
 
