@@ -7,10 +7,10 @@ import bcrypt
 from memodex.model import db
 from memodex.model import User
 
-component = Blueprint('resources', __name__, url_prefix='/api')
+resource = Blueprint('resources', __name__, url_prefix='/api')
 db.create_all()
 
-@component.route('/users/', methods=["GET"])
+@resource.route('/users/', methods=["GET"])
 def getUsers():
     users = User.query.all()
 
@@ -29,7 +29,7 @@ def getUsers():
         return jsonify({ 'status': 404, 'status_message': 'No users found' })
 
 
-@component.route('/users/<string:publicID>', methods=["GET"])
+@resource.route('/users/<string:publicID>', methods=["GET"])
 def getSingleUser(publicID):
     try:
         user = User.query.filter_by(public_id=publicID).first()
@@ -44,7 +44,7 @@ def getSingleUser(publicID):
         return jsonify({ 'status': 404, 'status_message': 'User not found' })
 
 
-@component.route('/users/', methods=["POST"])
+@resource.route('/users/', methods=["POST"])
 def registerUser():
     data = request.get_json()
     username = data.get('username')
@@ -68,7 +68,7 @@ def registerUser():
         return jsonify({ 'status': 400, 'status_message': 'Duplicate Entry' })
 
 
-@component.route('/users/<string:publicID>', methods=["PUT"])
+@resource.route('/users/<string:publicID>', methods=["PUT"])
 def editUser(publicID):
     try:
         data = request.get_json()
@@ -89,7 +89,7 @@ def editUser(publicID):
         return jsonify({ 'status': 404, 'status_message': 'User not found' })
 
 
-@component.route('/users/<string:publicID>', methods=["DELETE"])
+@resource.route('/users/<string:publicID>', methods=["DELETE"])
 def deleteUser(publicID):
     try:
         user = User.query.filter_by(public_id=publicID).first()

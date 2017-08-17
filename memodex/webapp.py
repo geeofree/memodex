@@ -8,4 +8,4 @@ from memodex.resources import users
 
 app.register_blueprint(home.component)
 app.register_blueprint(admin.component)
-app.register_blueprint(users.component)
+app.register_blueprint(users.resource)
