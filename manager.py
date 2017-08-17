@@ -1,4 +1,5 @@
 from memodex.webapp import app
+from utility import ViewUtil
 import argparse
 
 if __name__ == '__main__':
@@ -41,9 +42,10 @@ if __name__ == '__main__':
         app.run(debug=args.debug)
 
     if args.newapp:
-        appname = ''.join(args.newapp)
+        app_name = ''.join(args.newapp).lower()
 
-        if appname.isalpha():
-            create_blueprint(appname, args.prefixed)
+        if app_name.isalpha():
+            view_app = ViewUtil(app_name, args.prefixed, app_path=app.root_path)
+            view_app.create_blueprint()
         else:
             print('Application name must be only alphanumeric characters')
