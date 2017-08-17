@@ -29,7 +29,7 @@ def getUsers():
         return jsonify({ 'status': 404, 'status_message': 'No users found' })
 
 
-@resource.route('/users/<string:publicID>', methods=["GET"])
+@resource.route('/users/<string:publicID>/', methods=["GET"])
 def getSingleUser(publicID):
     try:
         user = User.query.filter_by(public_id=publicID).first()
@@ -68,7 +68,7 @@ def registerUser():
         return jsonify({ 'status': 400, 'status_message': 'Duplicate Entry' })
 
 
-@resource.route('/users/<string:publicID>', methods=["PUT"])
+@resource.route('/users/<string:publicID>/', methods=["PUT"])
 def editUser(publicID):
     try:
         data = request.get_json()
@@ -89,7 +89,7 @@ def editUser(publicID):
         return jsonify({ 'status': 404, 'status_message': 'User not found' })
 
 
-@resource.route('/users/<string:publicID>', methods=["DELETE"])
+@resource.route('/users/<string:publicID>/', methods=["DELETE"])
 def deleteUser(publicID):
     try:
         user = User.query.filter_by(public_id=publicID).first()
