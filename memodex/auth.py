@@ -52,7 +52,6 @@ class AuthToken:
             if token and self.valid_token(token):
                 authorized = True
 
-            print(authorized)
             return func(authorized, *args, **kwargs)
         return wrapped_func
 
