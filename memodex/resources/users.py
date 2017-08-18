@@ -4,11 +4,11 @@ from uuid import uuid4
 import datetime
 import bcrypt
 
-from memodex.model import db
-from memodex.model import User
+from memodex.model  import db
+from memodex.model  import User
+from memodex.webapp import auth_token
 
 resource = Blueprint('resources', __name__, url_prefix='/api')
-db.create_all()
 
 @resource.route('/users/', methods=["GET"])
 def getUsers():
@@ -30,7 +30,8 @@ def getUsers():
 
 
 @resource.route('/users/<string:publicID>/', methods=["GET"])
-def getSingleUser(publicID):
+@auth_token.required
+def getSingleUser(current_user, publicID):
     try:
         user = User.query.filter_by(public_id=publicID).first()
         user_data = {
@@ -69,6 +70,7 @@ def registerUser():
 
 
 @resource.route('/users/<string:publicID>/', methods=["PUT"])
+@auth_token.required
 def editUser(publicID):
     try:
         data = request.get_json()
@@ -90,6 +92,7 @@ def editUser(publicID):
 
 
 @resource.route('/users/<string:publicID>/', methods=["DELETE"])
+@auth_token.required
 def deleteUser(publicID):
     try:
         user = User.query.filter_by(public_id=publicID).first()
