@@ -1,9 +1,16 @@
-from memodex.webapp import app
+from memodex.webapp import app, db
 from utility import ViewUtil
 import argparse
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Flask Project cli tool by Geoffrey Galagaran.")
+
+    # Database Initializer flag
+    parser.add_argument(
+        '--dbinit',
+        action='store_true',
+        help='Initializes the database and tables'
+    )
 
     # New app flag
     parser.add_argument(
@@ -37,6 +44,10 @@ if __name__ == '__main__':
 
     if args.debug and not args.run:
         print('Debug flag can only be used when the run flag is inputted')
+
+    if args.dbinit:
+        db.create_all()
+        print('Database initialized')
 
     if args.run:
         app.run(debug=args.debug)
