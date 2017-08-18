@@ -8,7 +8,7 @@ import jwt, bcrypt, datetime, pytz
 component = Blueprint('general', __name__, url_prefix=None, template_folder='templates', static_folder='static')
 
 @component.route('/')
-def index(authorized):
+def index():
     return render_template('general/index.html')
 
 
