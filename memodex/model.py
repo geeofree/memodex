@@ -1,7 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
-from memodex.webapp import app
-
-db = SQLAlchemy(app)
+from memodex.webapp import db
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
