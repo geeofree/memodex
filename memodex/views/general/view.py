@@ -18,9 +18,9 @@ def login(is_validated):
     return render_template('general/login.html', is_validated=is_validated)
 
 
-@component.route('/login/', methods=["POST"])
+@component.route('/token/', methods=["POST"])
 @auth_token.is_authorized
-def validate_credentials(is_validated):
+def token(is_validated):
 
     if is_validated:
         return jsonify({ 'status': 303, 'status_message': 'Already signed in.' })
