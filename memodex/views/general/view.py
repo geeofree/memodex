@@ -55,6 +55,8 @@ def validate_credentials(is_validated):
         }
 
         token = auth_token.encode(payload)
-        return jsonify({ 'status': 200, 'status_message': 'Authentication success', 'token': token })
+        response = jsonify({ 'status': 200, 'status_message': 'Authentication success' })
+        response.set_cookie('token', value=token, httponly=True)
+        return response
     else:
         return jsonify({ 'status': 400, 'status_message': 'Username or password does not match' })

@@ -25,14 +25,7 @@ class AuthToken:
             return { 'status': 400, 'status_message': 'Invalid token request.' }
 
     def get_token(self):
-        token = None
-        token_header = 'x-access-token'
-
-        if token_header in request.headers:
-            token = request.headers[token_header]
-        else:
-            print('No access-token header')
-
+        token = request.cookies.get('token')
         return token
 
     def valid_token(self, token):
@@ -47,7 +40,6 @@ class AuthToken:
         def wrapped_func(*args, **kwargs):
             authorized = False
             token = self.get_token()
-            token_header = 'x-access-token'
 
             if token and self.valid_token(token):
                 authorized = True
@@ -60,7 +52,7 @@ class AuthToken:
         def wrapped_func(*args, **kwargs):
             token = self.get_token()
 
-            if not token:
+            if token == None:
                 return jsonify({ 'status': 404, 'status_message': 'Token not found or no access-token header' })
 
             response = self.decode(token)
