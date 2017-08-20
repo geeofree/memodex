@@ -8,8 +8,10 @@ db = SQLAlchemy(app)
 from memodex.auth import AuthToken
 auth_token = AuthToken(app.config['SECRET_KEY'])
 
-from memodex.views.general import view as general
-from memodex.resources     import users
+from memodex.views.app import view as application
+from memodex.commons   import token
+from memodex.resources import users
 
-app.register_blueprint(general.component)
+app.register_blueprint(application.component)
+app.register_blueprint(token.component)
 app.register_blueprint(users.resource)

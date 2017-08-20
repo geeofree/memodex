@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, make_response, request, jsonify
+from flask import Blueprint, make_response, request, jsonify
 
 from memodex.webapp import auth_token
 from memodex.model  import User
@@ -7,18 +7,7 @@ import jwt, bcrypt, datetime, pytz
 
 component = Blueprint('general', __name__, url_prefix=None, template_folder='templates', static_folder='static')
 
-@component.route('/')
-def index():
-    return render_template('general/index.html')
-
-
-@component.route('/login/', methods=["GET"])
-@auth_token.is_authorized
-def login(is_validated):
-    return render_template('general/login.html', is_validated=is_validated)
-
-
-@component.route('/token/', methods=["POST"])
+@component.route('/token', methods=["POST"])
 @auth_token.is_authorized
 def token(is_validated):
 
