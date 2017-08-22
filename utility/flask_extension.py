@@ -1,6 +1,5 @@
 from flask import Flask
 import re
-import traceback
 
 class FlaskApp(Flask):
 
