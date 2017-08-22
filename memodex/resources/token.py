@@ -5,9 +5,9 @@ from memodex.model  import User
 
 import jwt, bcrypt, datetime, pytz
 
-component = Blueprint('general', __name__, url_prefix=None, template_folder='templates', static_folder='static')
+resource = Blueprint('general', __name__, url_prefix=None, template_folder='templates', static_folder='static')
 
-@component.route('/token', methods=["POST"])
+@resource.route('/token', methods=["POST"])
 @auth_token.is_authorized
 def token(is_validated):
 
