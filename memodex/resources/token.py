@@ -5,7 +5,7 @@ from memodex.model  import User
 
 import jwt, bcrypt, datetime, pytz
 
-resource = Blueprint('general', __name__, url_prefix=None, template_folder='templates', static_folder='static')
+resource = Blueprint('token', __name__)
 
 @resource.route('/token', methods=["POST"])
 @auth_token.is_authorized

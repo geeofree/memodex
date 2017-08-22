@@ -8,7 +8,7 @@ from memodex.model  import db
 from memodex.model  import User
 from memodex.webapp import auth_token
 
-resource = Blueprint('resources', __name__, url_prefix='/api')
+resource = Blueprint('users', __name__)
 
 @resource.route('/users/', methods=["GET"])
 def getUsers():

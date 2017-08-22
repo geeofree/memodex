@@ -1,5 +1,5 @@
-from flask import Flask
-app = Flask(__name__)
+from utility.flask_extension import FlaskApp
+app = FlaskApp(__name__)
 app.config.from_pyfile('config.cfg')
 
 from flask_sqlalchemy import SQLAlchemy
@@ -13,5 +13,5 @@ from memodex.resources import token
 from memodex.resources import users
 
 app.register_blueprint(application.component)
-app.register_blueprint(token.resource)
-app.register_blueprint(users.resource)
+app.register_resource(token.resource)
+app.register_resource(users.resource)
