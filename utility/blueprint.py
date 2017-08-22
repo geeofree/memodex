@@ -12,6 +12,20 @@ class ViewUtil:
 
 
     def create_blueprint(self):
+        """
+        Creates the blueprint directory along with the following structure:
+            [[ProjectName]]
+                |__[[views]]
+                    |__[[BlueprintName]]
+                        |__<__init__.py>
+                        |__<view.py>
+                        |__[[templates]]
+                        |    |__[[BlueprintName]]
+                        |        |__<index.html>
+                        |__[[static]]
+                             |__[[BlueprintName]]
+        """
+
         project_views_path = '%s/views' % self.app_path
         blueprint_dir = '%s/%s' % (project_views_path, self.app_name)
 
@@ -25,26 +39,34 @@ class ViewUtil:
                 subdirs = ['/', '/templates', '/static']
 
                 for subdir in subdirs:
+                    # Optional directory for /templates and /static folders to add
+                    # an extra directory inside it with the same name as the created
+                    # blueprint's name
                     optdir = '/%s/' % self.app_name if subdir != subdirs[0] else ''
                     view_dir = '%s%s%s' % (blueprint_dir, subdir, optdir)
                     os.makedirs(view_dir)
 
+                    # Create Root PyFiles: __init__ and view
                     if subdir == subdirs[0]:
                         self.create_pyinit(view_dir)
                         self.create_view(view_dir)
+                    # Create Template Directory with an index html file
                     elif subdir == subdirs[1]:
                         self.create_index_template(view_dir)
 
                 print("<Done>")
+
             except:
                 traceback.print_exc()
                 print('<Destroying blueprint directory: %s>' % blueprint_dir)
+                # Destroy created blueprint directory if something went wrong while creating it
                 rmblueprint(blueprint_dir)
         else:
             raise NotADirectoryError("Flask project views path does not exist")
 
 
     def filestream(filename='', iotype='w'):
+        """ Method Decorator: for writing and creating(default) to a file """
         def decorator(func):
             @wraps(func)
             def wrapped_func(self, file_dir, *args, **kwargs):
@@ -61,11 +83,13 @@ class ViewUtil:
 
     @filestream(filename='__init__.py')
     def create_pyinit(self, file_data):
+        """ Creates a __init__.py script to make the blueprint directory a python package """
         return file_data.write('')
 
 
     @filestream(filename='view.py')
     def create_view(self, file_data):
+        """ Creates a basic flask blueprint view script """
 
         url_prefix = "'/%s'" % self.app_name if self.is_prefixed else None
 
@@ -86,12 +110,12 @@ class ViewUtil:
         """
 
         template = dedent(view_template.format(self.app_name, url_prefix))
-
         return file_data.write(template)
 
 
     @filestream(filename='index.html')
     def create_index_template(self, file_data):
+        """ Creates a basic HTML template for the flask blueprint view """
 
         index_html_template = """\
         <!DOCTYPE html>
@@ -108,5 +132,4 @@ class ViewUtil:
         </html>"""
 
         template = dedent(index_html_template.format(self.app_name.title()))
-
         return file_data.write(template)
