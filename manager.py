@@ -1,5 +1,5 @@
-from memodex.webapp import app, db
-from utility import ViewUtil
+from memodex.webapp    import app, db
+from utility.blueprint import ViewUtil
 import argparse
 
 if __name__ == '__main__':
