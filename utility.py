@@ -61,7 +61,13 @@ class ViewUtil:
         view_template = """\
         from flask import Blueprint, render_template
 
-        component = Blueprint('{0}', __name__, url_prefix={1}, template_folder='templates', static_folder='static')
+        options = {{
+            "url_prefix": {1},
+            "template_folder": 'templates',
+            "static_folder": 'static/{0}'
+        }}
+
+        component = Blueprint('{0}', __name__, **options)
 
         @component.route('/')
         def index():
