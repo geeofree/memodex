@@ -53,7 +53,7 @@ class AuthToken:
             token = self.get_token()
 
             if token == None:
-                return jsonify({ 'status': 404, 'status_message': 'Token not found or no access-token header' })
+                return jsonify({ 'status': 404, 'status_message': 'Token not found' })
 
             response = self.decode(token)
             res_status = response.get('status')
