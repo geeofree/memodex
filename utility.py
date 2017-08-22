@@ -1,4 +1,5 @@
 import os
+import traceback
 from textwrap import dedent
 from functools import wraps
 
@@ -28,8 +29,8 @@ class ViewUtil:
                     elif subdir == 'templates':
                         self.create_index_template(view_dir)
 
-            except Exception as error:
-                print(error)
+            except:
+                traceback.print_exc()
         else:
             raise NotADirectoryError("Flask project views path does not exist")
 
