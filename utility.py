@@ -16,20 +16,26 @@ class ViewUtil:
         blueprint_dir = '%s/%s' % (project_views_path, self.app_name)
 
         if os.path.isdir(project_views_path):
+
+            if os.path.isdir(blueprint_dir):
+                raise FileExistsError("<%s blueprint already exists for this project>" % self.app_name.title())
+
             try:
-                subdirs = ['', 'templates', 'static']
+                print('<Creating %s blueprint>' % self.app_name.title())
+                subdirs = ['/', '/templates', '/static']
 
                 for subdir in subdirs:
-                    optdir = self.app_name if subdir != '' else ''
-                    view_dir = '%s/%s/%s' % (blueprint_dir, subdir, optdir)
+                    optdir = '/%s/' % self.app_name if subdir != subdirs[0] else ''
+                    view_dir = '%s%s%s' % (blueprint_dir, subdir, optdir)
                     os.makedirs(view_dir)
 
-                    if subdir == '':
+                    if subdir == subdirs[0]:
                         self.create_pyinit(view_dir)
                         self.create_view(view_dir)
-                    elif subdir == 'templates':
+                    elif subdir == subdirs[1]:
                         self.create_index_template(view_dir)
 
+                print("<Done>")
             except:
                 traceback.print_exc()
                 print('<Destroying blueprint directory: %s>' % blueprint_dir)
@@ -42,10 +48,10 @@ class ViewUtil:
         def decorator(func):
             @wraps(func)
             def wrapped_func(self, file_dir, *args, **kwargs):
-                filepath = '%s/%s' % (file_dir, filename)
+                filepath = '%s%s' % (file_dir, filename)
 
                 with open(filepath, iotype) as file_data:
-                    print('<Creating File: %s; Fullpath --> %s>' % (filename, filepath))
+                    print('<Creating File: %s>' % (filename))
                     rv = func(self, file_data, *args, **kwargs)
 
                 return rv
