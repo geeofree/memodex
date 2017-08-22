@@ -1,3 +1,5 @@
 .projectenv
 __pycache__
 *.cfg
+npm-debug.log
+node_modules
