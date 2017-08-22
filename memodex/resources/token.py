@@ -1,4 +1,4 @@
-from flask import Blueprint, make_response, request, jsonify
+from flask import Blueprint, request, jsonify
 
 from memodex.webapp import auth_token
 from memodex.model  import User
