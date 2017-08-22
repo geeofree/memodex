@@ -1,5 +1,6 @@
 import os
 import traceback
+from shutil import rmtree as rmblueprint
 from textwrap import dedent
 from functools import wraps
 
@@ -31,6 +32,8 @@ class ViewUtil:
 
             except:
                 traceback.print_exc()
+                print('<Destroying blueprint directory: %s>' % blueprint_dir)
+                rmblueprint(blueprint_dir)
         else:
             raise NotADirectoryError("Flask project views path does not exist")
 
@@ -42,6 +45,7 @@ class ViewUtil:
                 filepath = '%s/%s' % (file_dir, filename)
 
                 with open(filepath, iotype) as file_data:
+                    print('<Creating File: %s; Fullpath --> %s>' % (filename, filepath))
                     rv = func(self, file_data, *args, **kwargs)
 
                 return rv
