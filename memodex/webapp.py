@@ -5,6 +5,11 @@ app.config.from_pyfile('config.cfg')
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy(app)
 
+from flask_cors import CORS
+endpoint = r'%s/*' % app.config.get('API_ENDPOINT')
+# Support Credentials Option for DevEnvironment only
+cors = CORS(app, resources=endpoint, supports_credentials=True)
+
 from memodex.auth import AuthToken
 auth_token = AuthToken(app.config['SECRET_KEY'])
 
