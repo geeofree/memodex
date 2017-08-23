@@ -10,7 +10,7 @@ from memodex.webapp import auth_token
 
 resource = Blueprint('users', __name__)
 
-@resource.route('/users/', methods=["GET"])
+@resource.route('/users', methods=["GET"])
 def getUsers():
     users = User.query.all()
 
@@ -29,7 +29,7 @@ def getUsers():
         return jsonify({ 'status': 404, 'status_message': 'No users found' })
 
 
-@resource.route('/users/<string:publicID>/', methods=["GET"])
+@resource.route('/users/<string:publicID>', methods=["GET"])
 @auth_token.required
 def getSingleUser(current_user, publicID):
     try:
@@ -45,7 +45,7 @@ def getSingleUser(current_user, publicID):
         return jsonify({ 'status': 404, 'status_message': 'User not found' })
 
 
-@resource.route('/users/', methods=["POST"])
+@resource.route('/users', methods=["POST"])
 def registerUser():
     data = request.get_json()
     username = data.get('username')
@@ -69,9 +69,9 @@ def registerUser():
         return jsonify({ 'status': 400, 'status_message': 'Duplicate Entry' })
 
 
-@resource.route('/users/<string:publicID>/', methods=["PUT"])
+@resource.route('/users/<string:publicID>', methods=["PUT"])
 @auth_token.required
-def editUser(publicID):
+def editUser(current_user, publicID):
     try:
         data = request.get_json()
         new_username = data.get('username')
@@ -93,7 +93,7 @@ def editUser(publicID):
 
 @resource.route('/users/<string:publicID>/', methods=["DELETE"])
 @auth_token.required
-def deleteUser(publicID):
+def deleteUser(current_user, publicID):
     try:
         user = User.query.filter_by(public_id=publicID).first()
         db.session.delete(user)
