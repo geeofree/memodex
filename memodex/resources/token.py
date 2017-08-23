@@ -12,7 +12,7 @@ resource = Blueprint('token', __name__)
 def token(is_validated):
 
     if is_validated:
-        return jsonify({ 'status': 303, 'status_message': 'Already signed in.' })
+        return jsonify({ 'status': 409, 'status_message': 'Already signed in.' })
 
     data = request.get_json()
     req_username = data.get('username')
@@ -44,7 +44,7 @@ def token(is_validated):
         }
 
         token = auth_token.encode(payload)
-        response = jsonify({ 'status': 200, 'status_message': 'Authentication success' })
+        response = jsonify({ 'status': 200, 'status_message': 'Authentication success', 'token': token })
         response.set_cookie('token', value=token, httponly=True)
         return response
     else:
