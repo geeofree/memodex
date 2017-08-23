@@ -1,18 +1,17 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import AuthPage from '../views/auth.view'
 
-const LoginHOC = (Component) => {
-  class Login extends React.Component {
+const AuthHOC = (Component) => {
+  const Login = (props) => (
+    props.isLoggedIn ? <Component {...props} /> : <AuthPage {...props}/>
+  )
 
-    componentDidMount() {
-      
-    }
+  const mapStateToProps = (state) => ({
+    isLoggedIn: state.auth.authenticated
+  })
 
-    render() {
-
-    }
-  }
-
-  return Login
+  return connect(mapStateToProps)(Login)
 }
 
-export default LoginHOC
+export default AuthHOC
