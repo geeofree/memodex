@@ -1,9 +1,9 @@
 import assign from '../helpers/assign'
 
 import {
-  AUTH_FETCH_PENDING,
-  AUTH_FETCH_SUCCESS,
-  AUTH_FETCH_ERROR,
+  AUTH_SIGNIN_PENDING,
+  AUTH_SIGNIN_FINISHED,
+  AUTH_SIGNIN_ERROR,
   AUTH_TOKEN_VALIDATION_PENDING,
   AUTH_TOKEN_VALIDATION_FINISHED,
   AUTH_TOKEN_VALIDATION_ERROR
@@ -39,17 +39,17 @@ export default (state=initialState, action) => {
         error: action.payload.error
       })
 
-    case AUTH_FETCH_PENDING:
+    case AUTH_SIGNIN_PENDING:
       return assign(state, { fetching: true })
 
-    case AUTH_FETCH_SUCCESS:
+    case AUTH_SIGNIN_FINISHED:
       return assign(state, {
         fetching: false,
         authenticated: action.payload.authenticated,
         error: null
       })
 
-    case AUTH_FETCH_ERROR:
+    case AUTH_SIGNIN_ERROR:
       return assign(state, {
         fetching: false,
         error: action.payload.error

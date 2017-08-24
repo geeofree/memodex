@@ -3,9 +3,9 @@ import axios from 'axios'
 import { requestAuthToken, validateToken } from '../services/auth.service'
 
 import {
-  AUTH_FETCH_PENDING,
-  AUTH_FETCH_SUCCESS,
-  AUTH_FETCH_ERROR,
+  AUTH_SIGNIN_PENDING,
+  AUTH_SIGNIN_FINISHED,
+  AUTH_SIGNIN_ERROR,
   AUTH_TOKEN_VALIDATION_PENDING,
   AUTH_TOKEN_VALIDATION_FINISHED,
   AUTH_TOKEN_VALIDATION_ERROR,
@@ -13,16 +13,16 @@ import {
 
 
 const signinPending = () => ({
-  type: AUTH_FETCH_PENDING
+  type: AUTH_SIGNIN_PENDING
 })
 
 const signinSuccess = (authenticated) => ({
-  type: AUTH_FETCH_SUCCESS,
+  type: AUTH_SIGNIN_FINISHED,
   payload: { authenticated }
 })
 
 const signinError = (error) => ({
-  type: AUTH_FETCH_ERROR,
+  type: AUTH_SIGNIN_ERROR,
   payload: { error }
 })
 
@@ -40,7 +40,7 @@ const validationError = (error) => ({
   payload: { error }
 })
 
-export const signin = (authPayload) => (dispatch) => {
+export const userSignin = (authPayload) => (dispatch) => {
   dispatch(signinPending())
 
   requestAuthToken(authPayload)
@@ -74,7 +74,7 @@ export const authCheck = () => (dispatch) => {
       else if(data.status >= 400) {
         dispatch(validationFinished(false))
       }
-      
+
     })
     .catch(err => {
       console.log(err)
