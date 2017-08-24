@@ -35,16 +35,18 @@ class AuthToken:
         except Exception:
             return False
 
-    def is_authorized(self, func):
+    def validate_client_token(self, func):
         @wraps(func)
         def wrapped_func(*args, **kwargs):
-            authorized = False
             token = self.get_token()
 
-            if token and self.valid_token(token):
-                authorized = True
-
-            return func(authorized, *args, **kwargs)
+            if token:
+                if self.valid_token(token):
+                    return jsonify({ 'status': 409, 'status_message': 'Already signed in.' })
+                else:
+                    return jsonify({ 'status': 400, 'status_message': 'Invalid Token' })
+            else:
+                return jsonify({ 'status': 404, 'status_message': 'No token found' })
         return wrapped_func
 
     def required(self, func):
