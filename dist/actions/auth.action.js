@@ -16,9 +16,9 @@ const signinPending = () => ({
   type: AUTH_SIGNIN_PENDING
 })
 
-const signinSuccess = (authenticated) => ({
+const signinSuccess = (authenticated, fetchResponse) => ({
   type: AUTH_SIGNIN_FINISHED,
-  payload: { authenticated }
+  payload: { authenticated, fetchResponse }
 })
 
 const signinError = (error) => ({
@@ -30,9 +30,9 @@ const validationPending = () => ({
   type: AUTH_TOKEN_VALIDATION_PENDING
 })
 
-const validationFinished = (authenticated) => ({
+const validationFinished = (authenticated, fetchResponse) => ({
   type: AUTH_TOKEN_VALIDATION_FINISHED,
-  payload: { authenticated }
+  payload: { authenticated, fetchResponse }
 })
 
 const validationError = (error) => ({
@@ -45,15 +45,18 @@ export const userSignin = (authPayload) => (dispatch) => {
 
   requestAuthToken(authPayload)
     .then(res => {
+
       const { data } = res
+      const { status, status_message } = data
 
       if(data.status === 200) {
-        dispatch(signinSuccess(true))
+        dispatch(signinSuccess(true, { status, status_message }))
         localStorage.token = data.token
       }
       else if(data.status >= 400) {
-        dispatch(signinSuccess(false))
+        dispatch(signinSuccess(false, { status, status_message }))
       }
+      
     })
     .catch(err => {
       console.log(err)
@@ -66,13 +69,15 @@ export const authCheck = () => (dispatch) => {
 
   validateToken()
     .then(res => {
+
       const { data } = res
+      const { status, status_message } = data
 
       if(data.status === 409) {
-        dispatch(validationFinished(true))
+        dispatch(validationFinished(true, { status, status_message }))
       }
       else if(data.status >= 400) {
-        dispatch(validationFinished(false))
+        dispatch(validationFinished(false, { status, status_message }))
       }
 
     })
