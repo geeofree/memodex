@@ -13,8 +13,7 @@ const hasToken = Boolean(token)
 const initialState = {
   fetching: false,
   authenticated: hasToken,
-  error: null,
-  token
+  error: null
 }
 
 export default (state=initialState, action) => {
@@ -27,7 +26,6 @@ export default (state=initialState, action) => {
       return assign(state, {
         fetching: false,
         authenticated: action.payload.authenticated,
-        token: action.payload.token,
         error: null
       })
 

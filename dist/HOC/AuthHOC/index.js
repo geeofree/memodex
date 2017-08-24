@@ -2,30 +2,30 @@ import React from 'react'
 import { connect } from 'react-redux'
 import AuthPage from './AuthPage'
 
-// import { validateToken } from '../../actions/auth.action'
+import { authCheck } from '../../actions/auth.action'
 
 const AuthHOC = (Component) => {
 
   class Authentication extends React.Component {
-    componentWillMount() {
-      const { dispatch } = this.props
 
-      // dispatch(validateToken())
+    componentWillMount() {
+      const { dispatch, isLoggedIn } = this.props
+      if(isLoggedIn) dispatch(authCheck())
     }
 
     render() {
-
       const { props } = this
-      const { isLoggedIn } = props
+      const { isLoggedIn, isFetching } = props
 
       return (
-        isLoggedIn ? <Component {...props} /> : <AuthPage {...props}/>
+        isLoggedIn ? !isFetching && <Component {...props} /> : !isFetching && <AuthPage {...props}/>
       )
     }
   }
 
   const mapStateToProps = (state) => ({
-    isLoggedIn: state.auth.authenticated
+    isLoggedIn: state.auth.authenticated,
+    isFetching: state.auth.fetching
   })
 
   return connect(mapStateToProps)(Authentication)
