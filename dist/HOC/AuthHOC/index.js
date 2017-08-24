@@ -15,17 +15,17 @@ const AuthHOC = (Component) => {
 
     render() {
       const { props } = this
-      const { isLoggedIn, isFetching } = props
+      const { isLoggedIn, isValidating } = props
 
       return (
-        isLoggedIn ? !isFetching && <Component {...props} /> : !isFetching && <AuthPage {...props}/>
+        isLoggedIn ? !isValidating && <Component {...props} /> : !isValidating && <AuthPage {...props}/>
       )
     }
   }
 
   const mapStateToProps = (state) => ({
     isLoggedIn: state.auth.authenticated,
-    isFetching: state.auth.fetching
+    isValidating: state.auth.validating
   })
 
   return connect(mapStateToProps)(Authentication)

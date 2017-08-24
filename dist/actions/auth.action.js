@@ -6,7 +6,9 @@ import {
   AUTH_FETCH_PENDING,
   AUTH_FETCH_SUCCESS,
   AUTH_FETCH_ERROR,
-  AUTH_SET_TOKEN
+  AUTH_TOKEN_VALIDATION_PENDING,
+  AUTH_TOKEN_VALIDATION_FINISHED,
+  AUTH_TOKEN_VALIDATION_ERROR,
 } from '../types/auth.types'
 
 
@@ -24,9 +26,21 @@ const signinError = (error) => ({
   payload: { error }
 })
 
+const validationPending = () => ({
+  type: AUTH_TOKEN_VALIDATION_PENDING
+})
+
+const validationFinished = (authenticated) => ({
+  type: AUTH_TOKEN_VALIDATION_FINISHED,
+  payload: { authenticated }
+})
+
+const validationError = (error) => ({
+  type: AUTH_TOKEN_VALIDATION_ERROR,
+  payload: { error }
+})
 
 export const signin = (authPayload) => (dispatch) => {
-
   dispatch(signinPending())
 
   requestAuthToken(authPayload)
@@ -43,27 +57,27 @@ export const signin = (authPayload) => (dispatch) => {
     })
     .catch(err => {
       console.log(err)
-      dispatch(signinError('Something went wrong'))
+      dispatch(signinError('Something went wrong while signing in'))
     })
 }
 
 export const authCheck = () => (dispatch) => {
-  dispatch(signinPending())
+  dispatch(validationPending())
 
   validateToken()
     .then(res => {
       const { data } = res
 
       if(data.status === 409) {
-        dispatch(signinSuccess(true))
+        dispatch(validationFinished(true))
       }
       else if(data.status >= 400) {
-        dispatch(signinSuccess(false))
+        dispatch(validationFinished(false))
       }
-
+      
     })
     .catch(err => {
       console.log(err)
-      dispatch(signinError('Somethin went wrong'))
+      dispatch(validationError('Somethin went wrong while validating authentication'))
     })
 }
