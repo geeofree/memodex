@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { signin } from '../actions/auth.action'
-import AuthHOC from '../HOC/auth.hoc'
+import AuthHOC from '../HOC/AuthHOC'
 
 const Application = () => <h1>Hello World!</h1>
 

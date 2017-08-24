@@ -1,6 +1,11 @@
-import React from 'react'
+import React       from 'react'
 import { connect } from 'react-redux'
-import { signin } from '../actions/auth.action'
+
+import { signin }  from '../../actions/auth.action'
+
+import FormInput     from '../../commons/FormInput'
+import FormSubmitBtn from '../../commons/FormSubmit'
+
 
 class AuthView extends React.Component {
   constructor(props) {
@@ -36,9 +41,9 @@ class AuthView extends React.Component {
 
     return (
       <form onSubmit={submitHandler}>
-        <input name="username" type="text" onChange={changeHandler}/>
-        <input name="password" type="password" onChange={changeHandler}/>
-        <button>Submit</button>
+        <FormInput title="Username" name="username" type="text" onChange={changeHandler}/>
+        <FormInput title="Password" name="password" type="password" onChange={changeHandler}/>
+        <FormSubmitBtn text="Sign in"/>
       </form>
     )
   }

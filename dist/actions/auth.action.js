@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+import { requestAuthToken } from '../services/auth.service'
+
 import {
   AUTH_FETCH_PENDING,
   AUTH_FETCH_SUCCESS,
@@ -26,12 +28,7 @@ export const signin = (authPayload) => (dispatch) => {
 
   dispatch(signinPending())
 
-  const request = axios.create({
-    baseURL: 'http://localhost:5000/api',
-    withCredentials: true
-  })
-
-  request.post('/token', authPayload)
+  requestAuthToken(authPayload)
     .then(res => {
       const { data } = res
 
@@ -39,7 +36,7 @@ export const signin = (authPayload) => (dispatch) => {
         dispatch(signinSuccess(true, data.token))
         localStorage.token = data.token
       }
-      else if(data.status >= 400 && data.status !== 409) {
+      else if(data.status >= 400) {
         dispatch(signinSuccess(false, null))
       }
     })
