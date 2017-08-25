@@ -25,7 +25,7 @@ class AuthToken:
             return { 'status': 400, 'status_message': 'Invalid token request.' }
 
     def get_token(self):
-        token = request.cookies.get('token')
+        token = request.headers.get('X-Access-Token')
         return token
 
     def valid_token(self, token):
@@ -44,7 +44,7 @@ class AuthToken:
                 if self.valid_token(token):
                     return jsonify({ 'status': 409, 'status_message': 'Already signed in.' })
                 else:
-                    return jsonify({ 'status': 400, 'status_message': 'Invalid Token' })
+                    return jsonify({ 'status': 400, 'status_message': 'Invalid Token or Expired' })
             else:
                 return jsonify({ 'status': 404, 'status_message': 'No token found' })
         return wrapped_func

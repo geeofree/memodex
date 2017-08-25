@@ -7,7 +7,7 @@ import jwt, bcrypt, datetime, pytz
 
 resource = Blueprint('token', __name__)
 
-@resource.route('/token/validate', methods=["GET"])
+@resource.route('/token/validate', methods=["POST"])
 @auth_token.validate_client_token
 def validate_token():
     pass
@@ -45,8 +45,6 @@ def create_token():
         }
 
         token = auth_token.encode(payload)
-        response = jsonify({ 'status': 200, 'status_message': 'Authentication success' })
-        response.set_cookie('token', value=token, httponly=True)
-        return response
+        return jsonify({ 'status': 200, 'status_message': 'Authentication success', 'token': token })
     else:
         return jsonify({ 'status': 400, 'status_message': 'Username or password does not match' })

@@ -51,7 +51,7 @@ export const userSignin = (authPayload) => (dispatch) => {
 
       if(data.status === 200) {
         dispatch(signinFinished(true, { status, status_message }))
-        localStorage.hasValidToken = true
+        localStorage.token = data.token
       }
       else if(data.status >= 400) {
         dispatch(signinFinished(false, { status, status_message }))
@@ -78,7 +78,6 @@ export const authCheck = () => (dispatch) => {
       }
       else if(data.status >= 400) {
         dispatch(validationFinished(false, { status, status_message }))
-        localStorage.removeItem('hasValidToken')
       }
 
     })

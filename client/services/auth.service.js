@@ -1,13 +1,10 @@
 import Service from './base.service'
 
-const { requestAuthToken, validateToken } = (() => {
-  const { request } = Service()
+export const { requestAuthToken, validateToken } = (() => {
+  const { serviceAction } = Service()
 
-  const requestAuthToken = (authPayload) => request.post('/token', authPayload)
-  const validateToken = () => request.get('/token/validate')
+  const requestAuthToken = serviceAction(request => authPayload =>  request.post('/token', authPayload))
+  const validateToken = serviceAction(request => () => request.post('/token/validate'))
 
   return { requestAuthToken, validateToken }
 })()
-
-
-export { requestAuthToken, validateToken }
