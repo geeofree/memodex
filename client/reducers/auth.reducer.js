@@ -10,13 +10,12 @@ import {
 } from '../types/auth.types'
 
 
-const token    = localStorage.getItem('token')
-const hasToken = Boolean(token)
+const hasValidToken = Boolean(localStorage.getItem('hasValidToken'))
 
 const initialState = {
   fetching: false,
   validating: false,
-  authenticated: hasToken,
+  authenticated: hasValidToken,
   error: null,
   fetchResponse: { status: null, status_message: null }
 }
