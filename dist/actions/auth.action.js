@@ -16,7 +16,7 @@ const signinPending = () => ({
   type: AUTH_SIGNIN_PENDING
 })
 
-const signinSuccess = (authenticated, fetchResponse) => ({
+const signinFinished = (authenticated, fetchResponse) => ({
   type: AUTH_SIGNIN_FINISHED,
   payload: { authenticated, fetchResponse }
 })
@@ -50,13 +50,13 @@ export const userSignin = (authPayload) => (dispatch) => {
       const { status, status_message } = data
 
       if(data.status === 200) {
-        dispatch(signinSuccess(true, { status, status_message }))
+        dispatch(signinFinished(true, { status, status_message }))
         localStorage.token = data.token
       }
       else if(data.status >= 400) {
-        dispatch(signinSuccess(false, { status, status_message }))
+        dispatch(signinFinished(false, { status, status_message }))
       }
-      
+
     })
     .catch(err => {
       console.log(err)
