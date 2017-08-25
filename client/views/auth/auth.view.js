@@ -1,13 +1,13 @@
 import React       from 'react'
 import { connect } from 'react-redux'
 
-import { userSignin }  from '../../actions/auth.action'
-
 import FormInput     from '../../components/FormInput'
 import FormSubmitBtn from '../../components/FormSubmit'
 
+import { userSignin } from '../../actions/auth.action'
 
-class AuthPage extends React.Component {
+
+class AuthView extends React.Component {
   constructor(props) {
     super(props)
 
@@ -52,4 +52,4 @@ const mapStateToProps = (state) => ({
   isFetching: state.auth.fetching
 })
 
-export default connect(mapStateToProps)(AuthPage)
+export default connect(mapStateToProps)(AuthView)

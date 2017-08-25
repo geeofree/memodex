@@ -1,8 +1,8 @@
 import React       from 'react'
 import { connect } from 'react-redux'
 
-import AuthPage      from './AuthPage'
-import { authCheck } from '../../actions/auth.action'
+import AuthView      from '../views/auth/auth.view'
+import { authCheck } from '../actions/auth.action'
 
 
 const AuthHOC = (Component) => {
@@ -18,7 +18,7 @@ const AuthHOC = (Component) => {
       const { isLoggedIn, isValidating } = props
 
       return (
-        isLoggedIn ? !isValidating && <Component {...props} /> : !isValidating && <AuthPage {...props}/>
+        isLoggedIn ? !isValidating && <Component {...props} /> : !isValidating && <AuthView {...props}/>
       )
     }
   }
