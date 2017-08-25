@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 
 import { userSignin }  from '../../actions/auth.action'
 
-import FormInput     from '../../commons/FormInput'
-import FormSubmitBtn from '../../commons/FormSubmit'
+import FormInput     from '../../components/FormInput'
+import FormSubmitBtn from '../../components/FormSubmit'
 
 
-class AuthView extends React.Component {
+class AuthPage extends React.Component {
   constructor(props) {
     super(props)
 
@@ -22,10 +22,7 @@ class AuthView extends React.Component {
 
   changeHandler(e) {
     const { target } = e
-
-    this.setState({
-      [target.name]: target.value
-    })
+    this.setState({ [target.name]: target.value })
   }
 
   submitHandler(e) {
@@ -55,4 +52,4 @@ const mapStateToProps = (state) => ({
   isFetching: state.auth.fetching
 })
 
-export default connect(mapStateToProps)(AuthView)
+export default connect(mapStateToProps)(AuthPage)

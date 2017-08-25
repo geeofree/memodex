@@ -7,7 +7,7 @@ import appState     from './app.state'
 import Application  from './router'
 
 const Memodex = () => (
-  <Provider store={ appState }>
+  <Provider store={appState}>
     <Application />
   </Provider>
 )
