@@ -32,7 +32,10 @@ module.exports = {
     hot: true,
     port: 3000,
     compress: true,
-    contentBase: DevPath
+    contentBase: DevPath,
+    historyApiFallback: {
+      index: 'index.html'
+    }
   },
   plugins: [
     ExtractCSS,
