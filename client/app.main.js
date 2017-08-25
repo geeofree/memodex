@@ -1,8 +1,17 @@
 import React from 'react'
 import './app.style.sass'
 
-import AuthHOC from './HOC/auth.hoc'
+import { Switch } from 'react-router-dom'
+import Router from './components/Router/app.router'
 
-const Application = () => <h1>Hello World!</h1>
+import Home from './views/home/home.view'
+import Dashboard from './views/dashboard/dashboard.view'
 
-export default AuthHOC(Application)
+export default () => (
+  <Router>
+    <Switch>
+      <Home path="/" exact={true} />
+      <Dashboard path="/dashboard" protected />
+    </Switch>
+  </Router>
+)
