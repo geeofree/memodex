@@ -6,7 +6,7 @@ const ExtractCSS = new ExtractTextPlugin('style.css')
 const WebpackHMR = new webpack.HotModuleReplacementPlugin()
 
 const DevPath       = path.join(__dirname, 'client')
-const EntryPath     = path.join(DevPath, 'app.js')
+const EntryPath     = path.join(DevPath, 'index.js')
 const FlaskViewPath = path.join(__dirname, 'memodex', 'views', 'app', 'static', 'app')
 
 module.exports = {
