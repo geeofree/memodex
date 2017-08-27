@@ -9,8 +9,19 @@ const AuthHOC = (Component) => {
 
   class Authentication extends React.Component {
     componentWillMount() {
-      const { authCheck, isLoggedIn } = this.props
-      if(isLoggedIn) authCheck()
+      // Variable for checking during redirects from /login route so
+      // we don't do another network request even after successfully
+      // getting a verified authentication
+      let alreadyVerified = false
+
+      const { authCheck, isLoggedIn, location } = this.props
+      
+      if(location.state) alreadyVerified = location.state.verified
+
+      // Send network request to check if user's token is still valid
+      // if user has not already been verified and a user is deemed
+      // 'logged in' when they have a token locally stored
+      if(!alreadyVerified && isLoggedIn) authCheck()
     }
 
     render() {
