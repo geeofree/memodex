@@ -19,8 +19,8 @@ const AuthHOC = (Component) => {
       if(location.state) alreadyVerified = location.state.verified
 
       // Send network request to check if user's token is still valid
-      // if user has not already been verified and a user is deemed
-      // 'logged in' when they have a token locally stored
+      // if user has not already been verified and a user has a deemed
+      // verified access token when they have a token locally stored
       if(!alreadyVerified && hasVerifiedAccessToken) authCheck()
     }
 
