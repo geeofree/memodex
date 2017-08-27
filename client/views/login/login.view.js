@@ -10,19 +10,28 @@ import ViewHOC from '../../HOC/view.hoc'
 
 class LoginView extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.state = { processing: true }
+  }
+
+  componentWillMount() {
+    const { authCheck, location, isLoggedIn } = this.props
+    if(!location.state && isLoggedIn) authCheck()
+  }
+
   componentDidMount() {
     const { isValidating } = this.props
     if(!isValidating) this.setState({ processing: false })
   }
 
   render() {
+    const { processing } = this.state
     const { isLoggedIn, isValidating } = this.props
-    const { referrer } = this.props.location.state || { referrer: '/' }
+    const { referrer } = this.props.location.state || { referrer: '/dashboard' }
 
-    console.log(isValidating, isLoggedIn)
-
-    return isValidating ? <h1>Processing..</h1> : (
-      isLoggedIn ? <Redirect to={referrer} /> : <AuthView />
+    return processing ? <h1>processing...</h1> : (
+      isLoggedIn ? !isValidating && <Redirect to={referrer} /> : !isValidating && <AuthView />
     )
   }
 }

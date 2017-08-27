@@ -8,10 +8,10 @@ export default (baseURL='http://localhost:5000/api', withCredentials=false) => {
 
   const request = axios.create({ baseURL, withCredentials })
 
-  const serviceAction = (callback) => {
-    const token = localStorage.getItem('token')
-    request.defaults.headers.common['x-access-token'] = token
-    return callback(request)
+  const serviceAction = (callback) => (...args) => {
+      const token = localStorage.getItem('token')
+      request.defaults.headers.common['x-access-token'] = token
+      return callback(request)(...args)
   }
 
   return { serviceAction }
