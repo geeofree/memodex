@@ -50,8 +50,11 @@ export const userSignin = (authPayload) => (dispatch) => {
       const { status, status_message } = data
 
       if(data.status === 200) {
-        dispatch(signinFinished(true, { status, status_message }))
+        // Token storing on client storage must be before
+        // dispatch so the request headers get updated
+        // for the next serviceAction() call
         localStorage.token = data.token
+        dispatch(signinFinished(true, { status, status_message }))
       }
       else if(data.status >= 400) {
         dispatch(signinFinished(false, { status, status_message }))
