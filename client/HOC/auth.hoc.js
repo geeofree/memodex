@@ -9,8 +9,8 @@ const AuthHOC = (Component) => {
 
   class Authentication extends React.Component {
     componentWillMount() {
-      const { dispatch, isLoggedIn } = this.props
-      if(isLoggedIn) dispatch(authCheck())
+      const { authCheck, isLoggedIn } = this.props
+      if(isLoggedIn) authCheck()
     }
 
     render() {
@@ -30,7 +30,11 @@ const AuthHOC = (Component) => {
     isValidating: state.auth.validating
   })
 
-  return connect(mapStateToProps)(Authentication)
+  const mapDispatchToProps = (dispatch) => ({
+    authCheck: () => dispatch(authCheck())
+  })
+
+  return connect(mapStateToProps, mapDispatchToProps)(Authentication)
 }
 
 export default AuthHOC
