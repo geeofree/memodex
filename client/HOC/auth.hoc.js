@@ -1,7 +1,7 @@
 import React       from 'react'
 import { connect } from 'react-redux'
 
-import AuthView      from '../views/auth/auth.view'
+import { Redirect }  from 'react-router-dom'
 import { authCheck } from '../actions/auth.action'
 
 
@@ -15,10 +15,12 @@ const AuthHOC = (Component) => {
 
     render() {
       const { props } = this
-      const { isLoggedIn, isValidating } = props
+      const { isLoggedIn, isValidating, location } = props
 
       return (
-        isLoggedIn ? !isValidating && <Component {...props} /> : !isValidating && <AuthView {...props}/>
+        isLoggedIn ?
+          !isValidating && <Component {...props} /> :
+          !isValidating && <Redirect to={{ pathname:'/login', state: { referrer: location.pathname } }}/>
       )
     }
   }
