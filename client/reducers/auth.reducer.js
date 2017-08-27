@@ -1,12 +1,12 @@
 import assign from '../helpers/assign'
 
 import {
-  AUTH_SIGNIN_PENDING,
-  AUTH_SIGNIN_FINISHED,
-  AUTH_SIGNIN_ERROR,
-  AUTH_TOKEN_VALIDATION_PENDING,
-  AUTH_TOKEN_VALIDATION_FINISHED,
-  AUTH_TOKEN_VALIDATION_ERROR
+  AUTH_FETCH_USER_VERIFICATION_PENDING,
+  AUTH_FETCH_USER_VERIFICATION_FINISHED,
+  AUTH_FETCH_USER_VERIFICATION_ERROR,
+  AUTH_FETCH_TOKEN_VALIDATION_PENDING,
+  AUTH_FETCH_TOKEN_VALIDATION_FINISHED,
+  AUTH_FETCH_TOKEN_VALIDATION_ERROR
 } from '../types/auth.types'
 
 
@@ -14,9 +14,9 @@ const accesstoken = localStorage.getItem('token')
 const hasToken    = Boolean(accesstoken)
 
 const initialState = {
-  fetching: false,
-  validating: false,
-  authenticated: hasToken,
+  verifyingUser: false,
+  verifyingToken: false,
+  hasVerifiedAccessToken: hasToken,
   token: accesstoken || null,
   error: null,
   fetchResponse: { status: null, status_message: null }
@@ -25,45 +25,45 @@ const initialState = {
 export default (state=initialState, action) => {
   switch(action.type) {
 
-    case AUTH_TOKEN_VALIDATION_PENDING:
+    case AUTH_FETCH_TOKEN_VALIDATION_PENDING:
       return assign(state, {
-        validating: true,
+        verifyingToken: true,
         fetchResponse: assign(state.fetchResponse, {
           status: null,
           status_message: null
         })
       })
 
-    case AUTH_TOKEN_VALIDATION_FINISHED:
+    case AUTH_FETCH_TOKEN_VALIDATION_FINISHED:
       return assign(state, {
         error: null,
-        validating: false,
-        authenticated: action.payload.authenticated,
+        verifyingToken: false,
+        hasVerifiedAccessToken: action.payload.hasVerifiedAccessToken,
         fetchResponse: assign(state.fetchResponse, {
           status: action.payload.fetchResponse.status,
           status_message: action.payload.fetchResponse.status_message
         })
       })
 
-    case AUTH_TOKEN_VALIDATION_ERROR:
+    case AUTH_FETCH_TOKEN_VALIDATION_ERROR:
       return assign(state, {
-        validating: false,
+        verifyingToken: false,
         error: action.payload.error
       })
 
-    case AUTH_SIGNIN_PENDING:
+    case AUTH_FETCH_USER_VERIFICATION_PENDING:
       return assign(state, {
-        fetching: true,
+        verifyingUser: true,
         fetchResponse: assign(state.fetchResponse, {
           status: null,
           status_message: null
         })
       })
 
-    case AUTH_SIGNIN_FINISHED:
+    case AUTH_FETCH_USER_VERIFICATION_FINISHED:
       return assign(state, {
-        fetching: false,
-        authenticated: action.payload.authenticated,
+        verifyingUser: false,
+        hasVerifiedAccessToken: action.payload.hasVerifiedAccessToken,
         error: null,
         fetchResponse: assign(state.fetchResponse, {
           status: action.payload.fetchResponse.status,
@@ -71,9 +71,9 @@ export default (state=initialState, action) => {
         })
       })
 
-    case AUTH_SIGNIN_ERROR:
+    case AUTH_FETCH_USER_VERIFICATION_ERROR:
       return assign(state, {
-        fetching: false,
+        verifyingUser: false,
         error: action.payload.error
       })
 

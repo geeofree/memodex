@@ -16,29 +16,33 @@ class LoginView extends React.Component {
   }
 
   componentWillMount() {
-    const { authCheck, location, isLoggedIn } = this.props
-    if(!location.state && isLoggedIn) authCheck()
+    const { authCheck, location, hasVerifiedAccessToken } = this.props
+    if(!location.state && hasVerifiedAccessToken) authCheck()
   }
 
   componentDidMount() {
-    const { isValidating } = this.props
-    if(!isValidating) this.setState({ processing: false })
+    const { isVerifyingToken } = this.props
+    if(!isVerifyingToken) this.setState({ processing: false })
   }
 
   render() {
     const { processing } = this.state
-    const { isLoggedIn, isValidating } = this.props
+    const { hasVerifiedAccessToken, isVerifyingToken } = this.props
     const { referrer } = this.props.location.state || { referrer: '/dashboard' }
 
     return processing ? <h1>processing...</h1> : (
-      isLoggedIn ? !isValidating && <Redirect to={referrer} /> : !isValidating && <AuthView />
+      hasVerifiedAccessToken ?
+        // Redirect from referrer route or /dashboard if verified
+        !isVerifyingToken && <Redirect to={{ pathname: referrer, state: { verified: true } }} /> :
+        // Show Sign in form if not
+        !isVerifyingToken && <AuthView />
     )
   }
 }
 
 const mapStateToProps = ({ auth }) => ({
-  isLoggedIn: auth.authenticated,
-  isValidating: auth.validating
+  hasVerifiedAccessToken: auth.hasVerifiedAccessToken,
+  isVerifyingToken: auth.verifyingToken
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -3,40 +3,40 @@ import axios from 'axios'
 import { requestAuthToken, validateToken } from '../services/auth.service'
 
 import {
-  AUTH_SIGNIN_PENDING,
-  AUTH_SIGNIN_FINISHED,
-  AUTH_SIGNIN_ERROR,
-  AUTH_TOKEN_VALIDATION_PENDING,
-  AUTH_TOKEN_VALIDATION_FINISHED,
-  AUTH_TOKEN_VALIDATION_ERROR,
+  AUTH_FETCH_USER_VERIFICATION_PENDING,
+  AUTH_FETCH_USER_VERIFICATION_FINISHED,
+  AUTH_FETCH_USER_VERIFICATION_ERROR,
+  AUTH_FETCH_TOKEN_VALIDATION_PENDING,
+  AUTH_FETCH_TOKEN_VALIDATION_FINISHED,
+  AUTH_FETCH_TOKEN_VALIDATION_ERROR,
 } from '../types/auth.types'
 
 
 const signinPending = () => ({
-  type: AUTH_SIGNIN_PENDING
+  type: AUTH_FETCH_USER_VERIFICATION_PENDING
 })
 
-const signinFinished = (authenticated, fetchResponse) => ({
-  type: AUTH_SIGNIN_FINISHED,
-  payload: { authenticated, fetchResponse }
+const signinFinished = (hasVerifiedAccessToken, fetchResponse) => ({
+  type: AUTH_FETCH_USER_VERIFICATION_FINISHED,
+  payload: { hasVerifiedAccessToken, fetchResponse }
 })
 
 const signinError = (error) => ({
-  type: AUTH_SIGNIN_ERROR,
+  type: AUTH_FETCH_USER_VERIFICATION_ERROR,
   payload: { error }
 })
 
 const validationPending = () => ({
-  type: AUTH_TOKEN_VALIDATION_PENDING
+  type: AUTH_FETCH_TOKEN_VALIDATION_PENDING
 })
 
-const validationFinished = (authenticated, fetchResponse) => ({
-  type: AUTH_TOKEN_VALIDATION_FINISHED,
-  payload: { authenticated, fetchResponse }
+const validationFinished = (hasVerifiedAccessToken, fetchResponse) => ({
+  type: AUTH_FETCH_TOKEN_VALIDATION_FINISHED,
+  payload: { hasVerifiedAccessToken, fetchResponse }
 })
 
 const validationError = (error) => ({
-  type: AUTH_TOKEN_VALIDATION_ERROR,
+  type: AUTH_FETCH_TOKEN_VALIDATION_ERROR,
   payload: { error }
 })
 
@@ -53,7 +53,7 @@ export const userSignin = (authPayload) => (dispatch) => {
         // Token storing on client storage must be before
         // dispatch so the request headers get updated
         // for the next serviceAction() call
-        localStorage.token = data.token
+        localStorage.setItem('token', data.token)
         dispatch(signinFinished(true, { status, status_message }))
       }
       else if(data.status >= 400) {
@@ -80,6 +80,7 @@ export const authCheck = () => (dispatch) => {
         dispatch(validationFinished(true, { status, status_message }))
       }
       else if(data.status >= 400) {
+        localStorage.removeItem('token')
         dispatch(validationFinished(false, { status, status_message }))
       }
 
