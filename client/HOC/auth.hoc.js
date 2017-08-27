@@ -14,31 +14,31 @@ const AuthHOC = (Component) => {
       // getting a verified authentication
       let alreadyVerified = false
 
-      const { authCheck, isLoggedIn, location } = this.props
-      
+      const { authCheck, hasVerifiedAccessToken, location } = this.props
+
       if(location.state) alreadyVerified = location.state.verified
 
       // Send network request to check if user's token is still valid
       // if user has not already been verified and a user is deemed
       // 'logged in' when they have a token locally stored
-      if(!alreadyVerified && isLoggedIn) authCheck()
+      if(!alreadyVerified && hasVerifiedAccessToken) authCheck()
     }
 
     render() {
       const { props } = this
-      const { isLoggedIn, isValidating, location } = props
+      const { hasVerifiedAccessToken, isVerifyingToken, location } = props
 
       return (
-        isLoggedIn ?
-          !isValidating && <Component {...props} /> :
-          !isValidating && <Redirect to={{ pathname:'/login', state: { referrer: location.pathname } }}/>
+        hasVerifiedAccessToken ?
+          !isVerifyingToken && <Component {...props} /> :
+          !isVerifyingToken && <Redirect to={{ pathname:'/login', state: { referrer: location.pathname } }}/>
       )
     }
   }
 
-  const mapStateToProps = (state) => ({
-    isLoggedIn: state.auth.authenticated,
-    isValidating: state.auth.validating
+  const mapStateToProps = ({ auth }) => ({
+    hasVerifiedAccessToken: auth.hasVerifiedAccessToken,
+    isVerifyingToken: auth.verifyingToken
   })
 
   const mapDispatchToProps = (dispatch) => ({

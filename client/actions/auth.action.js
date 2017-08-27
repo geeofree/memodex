@@ -16,9 +16,9 @@ const signinPending = () => ({
   type: AUTH_FETCH_USER_VERIFICATION_PENDING
 })
 
-const signinFinished = (authenticated, fetchResponse) => ({
+const signinFinished = (hasVerifiedAccessToken, fetchResponse) => ({
   type: AUTH_FETCH_USER_VERIFICATION_FINISHED,
-  payload: { authenticated, fetchResponse }
+  payload: { hasVerifiedAccessToken, fetchResponse }
 })
 
 const signinError = (error) => ({
@@ -30,9 +30,9 @@ const validationPending = () => ({
   type: AUTH_FETCH_TOKEN_VALIDATION_PENDING
 })
 
-const validationFinished = (authenticated, fetchResponse) => ({
+const validationFinished = (hasVerifiedAccessToken, fetchResponse) => ({
   type: AUTH_FETCH_TOKEN_VALIDATION_FINISHED,
-  payload: { authenticated, fetchResponse }
+  payload: { hasVerifiedAccessToken, fetchResponse }
 })
 
 const validationError = (error) => ({

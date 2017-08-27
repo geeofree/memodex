@@ -36,21 +36,21 @@ class AuthView extends React.Component {
 
   render() {
     const { submitHandler, changeHandler } = this
-    const { isFetching } = this.props
+    const { isVerifyingUser } = this.props
 
     return (
       <form onSubmit={submitHandler}>
         <FormInput title="Username" name="username" type="text" onChange={changeHandler}/>
         <FormInput title="Password" name="password" type="password" onChange={changeHandler}/>
         <FormSubmitBtn text="Sign in"/>
-        { isFetching && <p>Loading...</p> }
+        { isVerifyingUser && <p>Loading...</p> }
       </form>
     )
   }
 }
 
-const mapStateToProps = (state) => ({
-  isFetching: state.auth.fetching
+const mapStateToProps = ({ auth }) => ({
+  isVerifyingUser: auth.verifyingUser
 })
 
 const mapDispatchToProps = (dispatch) => ({
