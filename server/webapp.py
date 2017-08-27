@@ -7,15 +7,14 @@ db = SQLAlchemy(app)
 
 from flask_cors import CORS
 endpoint = r'%s/*' % app.config.get('API_ENDPOINT')
-# Support Credentials Option for DevEnvironment only
 cors = CORS(app, resources=endpoint)
 
-from memodex.auth import AuthToken
+from server.auth import AuthToken
 auth_token = AuthToken(app.config['SECRET_KEY'])
 
-from memodex.views.app import view as application
-from memodex.resources import token
-from memodex.resources import users
+from server.views.app import view as application
+from server.resources import token
+from server.resources import users
 
 app.register_blueprint(application.component)
 app.register_resource(token.resource)

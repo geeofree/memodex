@@ -4,9 +4,9 @@ from uuid import uuid4
 import datetime
 import bcrypt
 
-from memodex.model  import db
-from memodex.model  import User
-from memodex.webapp import auth_token
+from server.model  import db
+from server.model  import User
+from server.webapp import auth_token
 
 resource = Blueprint('users', __name__)
 

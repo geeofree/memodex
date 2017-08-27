@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from memodex.model import User
+from server.model import User
 from functools import wraps
 import jwt
 import datetime

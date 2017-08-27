@@ -1,4 +1,4 @@
-from memodex.webapp    import app, db
+from server.webapp    import app, db
 from utility.blueprint import ViewUtil
 import argparse
 

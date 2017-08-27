@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 
-from memodex.webapp import auth_token
-from memodex.model  import User
+from server.webapp import auth_token
+from server.model  import User
 
 import jwt, bcrypt, datetime, pytz
 
