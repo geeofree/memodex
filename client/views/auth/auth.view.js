@@ -27,10 +27,11 @@ class AuthView extends React.Component {
 
   submitHandler(e) {
     e.preventDefault()
-    const { username, password } = this.state
-    const { dispatch } = this.props
 
-    dispatch(userSignin({ username, password }))
+    const { username, password } = this.state
+    const { userSignin } = this.props
+
+    userSignin({ username, password })
   }
 
   render() {
@@ -52,4 +53,8 @@ const mapStateToProps = (state) => ({
   isFetching: state.auth.fetching
 })
 
-export default connect(mapStateToProps)(AuthView)
+const mapDispatchToProps = (dispatch) => ({
+  userSignin: (userCredentials) => dispatch(userSignin(userCredentials))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthView)
