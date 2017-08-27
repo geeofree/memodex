@@ -31,7 +31,11 @@ class LoginView extends React.Component {
     const { referrer } = this.props.location.state || { referrer: '/dashboard' }
 
     return processing ? <h1>processing...</h1> : (
-      isLoggedIn ? !isValidating && <Redirect to={referrer} /> : !isValidating && <AuthView />
+      isLoggedIn ?
+        // Redirect from referrer route or /dashboard if verified
+        !isValidating && <Redirect to={{ pathname: referrer, state: { verified: true } }} /> :
+        // Show Sign in form if not
+        !isValidating && <AuthView />
     )
   }
 }
