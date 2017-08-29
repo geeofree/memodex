@@ -52,27 +52,6 @@ class AuthToken:
             return False, 401
 
 
-    def validate_client_token(self, func):
-        @wraps(func)
-        def wrapped_func(*args, **kwargs):
-            token = self.get_token()
-            valid_token, token_status = self.valid_token(token)
-
-            if token:
-                if valid_token and token_status == 200:
-                    return jsonify({ 'status': 409, 'status_message': 'Already signed in.' })
-
-                if not valid_token and token_status == 400:
-                    return jsonify({ 'status': token_status, 'status_message': 'Invalid Token.' })
-
-                if not valid_token and token_status == 401:
-                    return jsonify({ 'status': token_status, 'status_message': 'Token has expired.' })
-            else:
-                return jsonify({ 'status': 404, 'status_message': 'No token found' })
-
-        return wrapped_func
-
-
     def required(self, func):
         """
         Decorator for flask routes to have a valid token when accessing the route
