@@ -7,11 +7,25 @@ import jwt, bcrypt, datetime, pytz
 
 resource = Blueprint('token', __name__)
 
+
 @resource.route('/token/validate', methods=["GET"])
-@auth_token.validate_client_token
 def validate_token():
     """ Route for validating a users current access token """
-    pass
+    token = auth_token.get_token()
+    valid_token, token_status = auth_token.valid_token(token)
+
+    if token:
+        if valid_token and token_status == 200:
+            return jsonify({ 'status': 409, 'status_message': 'Already signed in.' })
+
+        if not valid_token and token_status == 400:
+            return jsonify({ 'status': token_status, 'status_message': 'Invalid Token.' })
+
+        if not valid_token and token_status == 401:
+            return jsonify({ 'status': token_status, 'status_message': 'Token has expired.' })
+    else:
+        return jsonify({ 'status': 404, 'status_message': 'No token found' })
+
 
 @resource.route('/token', methods=["POST"])
 def create_token():
