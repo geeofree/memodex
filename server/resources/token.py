@@ -10,10 +10,12 @@ resource = Blueprint('token', __name__)
 @resource.route('/token/validate', methods=["POST"])
 @auth_token.validate_client_token
 def validate_token():
+    """ Route for validating a users current access token """
     pass
 
 @resource.route('/token', methods=["POST"])
 def create_token():
+    """ Route for creating access tokens on valid authentications """
 
     data = request.get_json()
     req_username = data.get('username')
@@ -25,10 +27,11 @@ def create_token():
 
     user = User.query.filter_by(username=req_username).first()
 
-    # Check if requested user is valid
+    # Check if requested user is invalid
     if not user:
         return jsonify({ 'status': 404, 'status_message': 'User does not exist' })
 
+    # Convert given client password and requested User password to byte code for bcrypt.checkpw()
     byte_req_pass = bytes(req_password, 'utf-8')
     byte_user_pass = bytes(user.password, 'utf-8')
 
