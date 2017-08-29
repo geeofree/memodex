@@ -7,7 +7,7 @@ import jwt, bcrypt, datetime, pytz
 
 resource = Blueprint('token', __name__)
 
-@resource.route('/token/validate', methods=["POST"])
+@resource.route('/token/validate', methods=["GET"])
 @auth_token.validate_client_token
 def validate_token():
     """ Route for validating a users current access token """
