@@ -11,7 +11,7 @@ from server.webapp import auth_token
 resource = Blueprint('users', __name__)
 
 @resource.route('/users', methods=["GET"])
-def getUsers():
+def get_users():
     users = User.query.all()
 
     if users:
@@ -31,7 +31,7 @@ def getUsers():
 
 @resource.route('/users/<string:publicID>', methods=["GET"])
 @auth_token.required
-def getSingleUser(current_user, publicID):
+def get_single_user(current_user, publicID):
     try:
         user = User.query.filter_by(public_id=publicID).first()
         user_data = {
@@ -46,7 +46,7 @@ def getSingleUser(current_user, publicID):
 
 
 @resource.route('/users', methods=["POST"])
-def registerUser():
+def register_user():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
@@ -71,7 +71,7 @@ def registerUser():
 
 @resource.route('/users/<string:publicID>', methods=["PUT"])
 @auth_token.required
-def editUser(current_user, publicID):
+def edit_user(current_user, publicID):
     try:
         data = request.get_json()
         new_username = data.get('username')
@@ -93,7 +93,7 @@ def editUser(current_user, publicID):
 
 @resource.route('/users/<string:publicID>/', methods=["DELETE"])
 @auth_token.required
-def deleteUser(current_user, publicID):
+def delete_user(current_user, publicID):
     try:
         user = User.query.filter_by(public_id=publicID).first()
         db.session.delete(user)
