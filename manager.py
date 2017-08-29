@@ -42,6 +42,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
+    # Make sure debug flag should only be used when run flag is used
     if args.debug and not args.run:
         print('Debug flag can only be used when the run flag is inputted')
 
