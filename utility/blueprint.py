@@ -56,7 +56,8 @@ class ViewUtil:
             # Make sure ProjectName/views/BlueprintName directory path
             # has not been created yet to avoid duplication
             if os.path.isdir(blueprint_dir):
-                raise FileExistsError("<%s blueprint already exists for this project>" % self.view_name.title())
+                error_message = "<%s blueprint already exists for this project>" % self.view_name.title()
+                raise FileExistsError(error_message)
 
             try:
                 print('<Creating %s blueprint>' % self.view_name.title())
@@ -108,6 +109,7 @@ class ViewUtil:
         Returns:
             A decorated function that has the streamed file data as the first argument
         """
+
         def decorator(func):
             @wraps(func)
             def wrapped_func(self, file_dir, *args, **kwargs):
