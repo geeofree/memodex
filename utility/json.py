@@ -1,7 +1,7 @@
 from flask import jsonify
 
 def jsonres(status_code, status_message, **payload):
-    """ Abstracts API JSON responses
+    """ Abstracts JSON responses for the API
 
     Args:
         status_code:int
@@ -12,14 +12,13 @@ def jsonres(status_code, status_message, **payload):
             - A collection of keyword arguments to add into the JSON response data
 
     Return:
-        json response using Flask's jsonify function
-        with the created json data
+        JSON response using Flask's jsonify function with the created json data
     """
 
-    if type(status_code) != int:
+    if type(status_code) is not int:
         raise ValueError("Invalid status_code value: Must be of type 'int'")
 
-    if type(status_message) != str:
+    if type(status_message) is not str:
         raise ValueError("Invalid status_message value: Must be of type 'str'")
 
     json_data = {
