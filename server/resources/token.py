@@ -13,8 +13,9 @@ resource = Blueprint('token', __name__)
 @resource.route('/token/validate', methods=["GET"])
 def validate_token():
     """ Route for validating a users current access token """
+
     token = auth_token.get_token()
-    valid_token, token_status = auth_token.valid_token(token)
+    token_status, valid_token = auth_token.valid_token(token)
 
     if token:
         if valid_token and token_status == 200:
@@ -54,13 +55,13 @@ def create_token():
     # Check if the request password matches the requested user's password
     if bcrypt.checkpw(byte_req_pass, byte_user_pass):
 
-        datetime_now = datetime.datetime.now(tz=pytz.UTC)
+        datetime_now    = datetime.datetime.now(tz=pytz.UTC)
         expiration_date = datetime_now + datetime.timedelta(minutes=1)
 
         payload = {
-            'sub': user.public_id,
-            'iat': datetime_now,
-            'exp': expiration_date
+            'sub': user.public_id, # Token subject
+            'iat': datetime_now,   # Token issued-at-time
+            'exp': expiration_date # Token expiration
         }
 
         token = auth_token.encode(payload)

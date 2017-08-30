@@ -4,15 +4,17 @@ def jsonres(status_code, status_message, **payload):
     """ Abstracts JSON responses for the API
 
     Args:
-        status_code:int
-            - HTTP response status code
-        status_message:str
+        status_code::int
+            - HTTP response status code for the resource
+
+        status_message::str
             - Describes the response's status
-        payload:dict
+
+        payload::dict
             - A collection of keyword arguments to add into the JSON response data
 
-    Return:
-        JSON response using Flask's jsonify function with the created json data
+    Returns:
+        A JSON response using Flask's jsonify function with the created json data
     """
 
     if type(status_code) is not int:

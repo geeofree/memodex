@@ -18,8 +18,8 @@ class TestJSONResponse(TestSkeleton):
 
         Then:
             Return value should be a JSON response derived from flask's jsonify function
-        that should assert equally to the mock dictionary object 'correct_response' """
-
+            that should assert equally to the 'correct_response' mock dictionary object
+        """
 
         correct_response = {
             'status': 200,
@@ -43,13 +43,14 @@ class TestJSONResponse(TestSkeleton):
 
         GIVEN:
             The jsonres function with a non-int type on the very first input argument and
-        an empty string for the second argument(required)
+            an empty string for the second argument(required)
 
         WHEN:
             The function is given a non-int type on the first argument
 
         THEN:
-            The function should raise a ValueError exception"""
+            The function should raise a ValueError exception
+        """
 
         # Test strings on status_code
         with pytest.raises(ValueError):
@@ -81,13 +82,14 @@ class TestJSONResponse(TestSkeleton):
 
         GIVEN:
             The jsonres function with an int type on the very first input argument and
-        a non-string type for the second argument
+            a non-string type for the second argument
 
         WHEN:
             The function is given a non-string type on the second argument
 
         THEN:
-            The function should raise a ValueError exception"""
+            The function should raise a ValueError exception
+        """
 
         # Test ints on status_message
         with pytest.raises(ValueError):

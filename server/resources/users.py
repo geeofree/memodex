@@ -12,6 +12,7 @@ resource = Blueprint('users', __name__)
 
 @resource.route('/users', methods=["GET"])
 def get_users():
+    """ Route for getting users """
     users = User.query.all()
 
     if users:
@@ -29,11 +30,13 @@ def get_users():
         return jsonify({ 'status': 404, 'status_message': 'No users found' })
 
 
-@resource.route('/users/<string:publicID>', methods=["GET"])
+@resource.route('/users/<string:public_id>', methods=["GET"])
 @auth_token.required
-def get_single_user(current_user, publicID):
+def get_single_user(current_user, public_id):
+    """ Route for getting a single user """
+
     try:
-        user = User.query.filter_by(public_id=publicID).first()
+        user = User.query.filter_by(public_id=public_id).first()
         user_data = {
             'public_id': user.public_id,
             'username': user.username,
@@ -47,6 +50,8 @@ def get_single_user(current_user, publicID):
 
 @resource.route('/users', methods=["POST"])
 def register_user():
+    """ Route for creating a new user """
+
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
@@ -69,14 +74,16 @@ def register_user():
         return jsonify({ 'status': 400, 'status_message': 'Duplicate Entry' })
 
 
-@resource.route('/users/<string:publicID>', methods=["PUT"])
+@resource.route('/users/<string:public_id>', methods=["PUT"])
 @auth_token.required
-def edit_user(current_user, publicID):
+def edit_user(current_user, public_id):
+    """ Route for updating a user """
+
     try:
         data = request.get_json()
         new_username = data.get('username')
 
-        user = User.query.filter_by(public_id=publicID).first()
+        user = User.query.filter_by(public_id=public_id).first()
         username_before_edit = user.username
 
         if username_before_edit == user.username:
@@ -91,11 +98,13 @@ def edit_user(current_user, publicID):
         return jsonify({ 'status': 404, 'status_message': 'User not found' })
 
 
-@resource.route('/users/<string:publicID>/', methods=["DELETE"])
+@resource.route('/users/<string:public_id>/', methods=["DELETE"])
 @auth_token.required
-def delete_user(current_user, publicID):
+def delete_user(current_user, public_id):
+    """ Route for updating a user """
+
     try:
-        user = User.query.filter_by(public_id=publicID).first()
+        user = User.query.filter_by(public_id=public_id).first()
         db.session.delete(user)
         db.session.commit()
         return jsonify({ 'status': 200, 'status_message': 'Successfully removed user' })

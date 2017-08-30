@@ -7,40 +7,41 @@ import os
 
 class ViewUtil:
     def __init__(self, view_name, is_prefixed, app_path=os.getcwd()):
+        """ Creates a ViewUtil instance for creating an application view/blueprint
+
+        Args:
+            view_name::str
+                - Name of the view/blueprint
+
+            is_prefixed::bool
+                - If set to True, set's the url_prefixed parameter on the view script
+                options dictionary with the viwe_name
+
+            app_path::str
+                - The Flask Project's path. Should derive from app.root_path or the default
+
+        Returns:
+            A ViewUtil instance
         """
-            Parameters:
-                view_name:
-                    - Name of the blueprint application view
-                is_prefixed:
-                    - Adds the view_name to the url_prefixed parameter on the view script options dictionary
-                app_path:
-                    - The Flask Project's path. Should derive from app.root_path or the default!!
-        """
-        self.view_name = view_name
+
+        self.view_name   = view_name
         self.is_prefixed = is_prefixed
-        self.app_path = app_path
+        self.app_path    = app_path
 
 
     def create_blueprint(self):
-        """
-        Creates the blueprint directory along with the following directory structure:
+        """ Creates the blueprint view tree structure or directory:
 
-            [ProjectName] <-- Flask Project path
-                |
-                |__[views]
-                    |
-                    |__[BlueprintName]
-                        |__<__init__.py>
-                        |__<view.py>
-                        |
-                        |__[templates]
-                        |   |
-                        |   |__[BlueprintName]
-                        |        |__<index.html>
-                        |
-                        |__[static]
-                             |
-                             |__[BlueprintName]
+        📁ProjectName <-- Project path location given from self.app_path
+            📁views
+                📁BlueprintName
+                    __init__.py
+                    view.py
+                    📁templates
+                        📁BlueprintName
+                            index.html
+                    📁static
+                         📁BlueprintName
         """
 
         # Path to ProjectName/views
@@ -95,7 +96,18 @@ class ViewUtil:
 
 
     def __filestream(filename='', iotype='w'):
-        """ Decorates a method to have access to an opened file data on it's parameters """
+        """ Decorates a method to have access to an opened file data on its parameters
+
+        Args:
+            filename::str
+                - The name of the file to open or create
+
+            iotype::str
+                - The stream type when the file is opened, default is 'w' for creating
+
+        Returns:
+            A decorated function that has the streamed file data as the first argument
+        """
         def decorator(func):
             @wraps(func)
             def wrapped_func(self, file_dir, *args, **kwargs):
@@ -118,7 +130,7 @@ class ViewUtil:
 
     @__filestream(filename='view.py')
     def create_view(self, file_data):
-        """ Creates a basic flask blueprint view script """
+        """ Creates a basic flask blueprint/view route script """
 
         url_prefix = "'/%s'" % self.view_name if self.is_prefixed else None
 
@@ -144,7 +156,7 @@ class ViewUtil:
 
     @__filestream(filename='index.html')
     def create_index_template(self, file_data):
-        """ Creates a basic HTML template for the flask blueprint view """
+        """ Creates a basic HTML template for the create blueprint/view """
 
         index_html_template = """\
         <!DOCTYPE html>
