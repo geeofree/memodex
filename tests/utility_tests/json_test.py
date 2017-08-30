@@ -1,4 +1,4 @@
-from utility.json  import json_response
+from utility.json  import jsonres
 from server.webapp import app
 
 import flask
@@ -9,7 +9,7 @@ class TestJSONResponse:
     application = app
     test_client = app.test_client()
 
-    def test_json_response_correct_response(self):
+    def test_jsonres_correct_response(self):
         """ Test should equal to the correct dictionary response """
 
         correct_response = {
@@ -19,61 +19,61 @@ class TestJSONResponse:
         }
 
         with self.application.test_request_context():
-            response = json_response(200, 'Ok', token='foobarbaz').get_data(as_text=True)
+            response = jsonres(200, 'Ok', token='foobarbaz').get_data(as_text=True)
             assert flask.json.loads(response) == correct_response
 
 
-    def test_json_response_invalid_status_code(self):
+    def test_jsonres_invalid_status_code(self):
         """ Test should raise a ValueError when status_code parameter is not of type 'int' """
 
         # Test strings
         with pytest.raises(ValueError):
-            json_response('', 'testing')
+            jsonres('', 'testing')
 
         # Test dictonaries
         with pytest.raises(ValueError):
-            json_response({}, 'testing')
+            jsonres({}, 'testing')
 
         # Test lists
         with pytest.raises(ValueError):
-            json_response([], 'testing')
+            jsonres([], 'testing')
 
         # Test tuples
         with pytest.raises(ValueError):
-            json_response((), 'testing')
+            jsonres((), 'testing')
 
         # Test sets
         with pytest.raises(ValueError):
-            json_response(set(), 'testing')
+            jsonres(set(), 'testing')
 
         # Test floats
         with pytest.raises(ValueError):
-            json_response(200.0, 'testing')
+            jsonres(200.0, 'testing')
 
 
-    def test_json_response_invalid_status_message(self):
+    def test_jsonres_invalid_status_message(self):
         """ Test should raise a ValueError when status_message parameter is not of type 'str' """
 
         # Test ints
         with pytest.raises(ValueError):
-            json_response(1, 1)
+            jsonres(1, 1)
 
         # Test floats
         with pytest.raises(ValueError):
-            json_response(1, 1.0)
+            jsonres(1, 1.0)
 
         # Test lists
         with pytest.raises(ValueError):
-            json_response(1, [])
+            jsonres(1, [])
 
         # Test tuples
         with pytest.raises(ValueError):
-            json_response(1, ())
+            jsonres(1, ())
 
         # Test sets
         with pytest.raises(ValueError):
-            json_response(1, set())
+            jsonres(1, set())
 
         # Test dictionaries
         with pytest.raises(ValueError):
-            json_response(1, {})
+            jsonres(1, {})

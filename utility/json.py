@@ -1,6 +1,6 @@
 from flask import jsonify
 
-def json_response(status_code, status_message, **payload):
+def jsonres(status_code, status_message, **payload):
     """ Abstracts API JSON responses
 
     Args:
