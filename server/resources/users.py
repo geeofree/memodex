@@ -1,12 +1,12 @@
 from flask import Blueprint, jsonify, request
 
-from uuid import uuid4
-import datetime
-import bcrypt
-
 from server.model  import db
 from server.model  import User
 from server.webapp import auth_token
+
+import datetime
+import bcrypt
+import uuid
 
 resource = Blueprint('users', __name__)
 
@@ -57,7 +57,7 @@ def register_user():
     try:
         encrypted_password = bcrypt.hashpw(bytes(password, 'utf-8'), bcrypt.gensalt())
         newUser = User(
-            public_id=str(uuid4()),
+            public_id=str(uuid.uuid4()),
             username=username,
             password=encrypted_password,
             date_created=datetime.datetime.now()

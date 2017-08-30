@@ -1,6 +1,7 @@
-from flask import request, jsonify
+from flask        import request, jsonify
+from functools    import wraps
 from server.model import User
-from functools import wraps
+
 import jwt
 import datetime
 import time

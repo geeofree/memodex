@@ -1,8 +1,9 @@
-import os
-import traceback
-from shutil import rmtree
-from textwrap import dedent
+from shutil    import rmtree
+from textwrap  import dedent
 from functools import wraps
+
+import traceback
+import os
 
 class ViewUtil:
     def __init__(self, view_name, is_prefixed, app_path=os.getcwd()):

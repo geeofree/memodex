@@ -3,10 +3,12 @@ from flask import Blueprint, request, jsonify
 from server.webapp import auth_token
 from server.model  import User
 
-import jwt, bcrypt, datetime, pytz
+import datetime
+import bcrypt
+import pytz
+import jwt
 
 resource = Blueprint('token', __name__)
-
 
 @resource.route('/token/validate', methods=["GET"])
 def validate_token():
